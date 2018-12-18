@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.example.androidlibrary.JokeActivity;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -13,12 +14,12 @@ import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 
 import java.io.IOException;
 
-public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
     private static MyApi myApiService = null;
     private Context context;
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected String doInBackground(Context... params) {
         if (myApiService == null) {
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -31,11 +32,11 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
                     });
             myApiService = builder.build();
         }
-        context = params[0].first;
-        String name = params[0].second;
+
+        context = params[0];
 
         try {
-            return myApiService.sayHi(name).execute().getData();
+            return myApiService.getJoke().execute().getData();
         } catch (IOException e) {
             return e.getMessage();
         }
@@ -44,7 +45,6 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
     @Override
     protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        JokeActivity.startWith(context, result);
     }
 }

@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
-
     }
 
 
@@ -47,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Joker myJoker = new Joker();
-        JokeActivity.startWith(this, myJoker.getJoke());
+        new EndpointsAsyncTask().execute(this);
     }
 
 
