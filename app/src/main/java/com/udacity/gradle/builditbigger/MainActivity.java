@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        new EndpointsAsyncTask().execute(this);
+        new EndpointsAsyncTask().execute(new Pair(this, "http://10.0.2.2:8080/_ah/api/"));
     }
-
-
 }
