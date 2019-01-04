@@ -1,16 +1,14 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.androidlibrary.JokeActivity;
-import com.example.jokeslibrary.Joker;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,9 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        new EndpointsAsyncTask().execute(new Pair(this, "http://10.0.2.2:8080/_ah/api/"));
+        new EndpointsAsyncTask(new AsyncTaskCompletion() {
+            @Override
+            public void onComplete(String str) {
+                if (str != null) {
+                    JokeActivity.startWith(MainActivity.this, str);
+                } else {
+                    Toast.makeText(MainActivity.this, "Error getting joke", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).execute("http://10.0.2.2:8080/_ah/api/");
     }
 }
