@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import android.widget.TextView;
 
 
 public class JokeActivity extends AppCompatActivity {
@@ -23,6 +23,7 @@ public class JokeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_library);
 
         String joke = getIntent().getStringExtra(JOKE_EXTRA);
-        Toast.makeText(this, joke, Toast.LENGTH_SHORT).show();
+        TextView jokeText = findViewById(R.id.joke_text);
+        jokeText.setText(joke);
     }
 }
